@@ -1,5 +1,5 @@
 <template>
-	<main>
+	<main v-if="isVisible">
         <div :class="notificationClass">
             <div class="modal-header">
                 <img v-if = "props.color=== 'rouge'" src="../../icons/Danger.svg" alt="Danger Icon" />
@@ -7,7 +7,7 @@
                 <img v-if = "props.color=== 'jaune'"src="../../icons/Warning.svg" alt="Warning Icon" />
                 <img v-if = "props.color=== 'bleu'"src="../../icons/Info.svg" alt="Info Icon" />
                 <h1>Modal Windows</h1>
-                <button class="close-button">&times;</button>
+                <button class="close-button" @click="closeNotification">&times;</button>
             </div>
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam, purus sit amet luctus venenatis, lectus magna fringilla urna, porttitor</p>
         </div>
@@ -15,7 +15,7 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { ref, computed } from 'vue';
 
 // prop pour accepter l'entrée
 const props = defineProps({
@@ -25,6 +25,15 @@ const props = defineProps({
         validator: value => ['rouge', 'vert',"jaune","bleu"].includes(value)
     }
 });
+
+//propriété réactive pour la visibilité
+const isVisible = ref(true);
+
+// fonction pour fermer la notification
+const closeNotification = () => {
+    isVisible.value = false;
+};
+
 
 //classe dynamique en fonction de la valeur de la prop
 const notificationClass = computed(() => {
