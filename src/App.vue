@@ -8,7 +8,7 @@
 </template>
 
 <script setup>
-  import { ref } from 'vue';
+  import { ref, watch } from 'vue';
   import BaseNotification from "./components/BaseNotification.vue";
   import BoutonNotif from "./components/BoutonNotif.vue";
 
@@ -16,7 +16,20 @@
 
   const handleColorGenerated = (color) => {
     notifications.value.push({ color });
+    console.log(color);
     console.log(notifications.value);
+
+    // Vérification que la dernière valeur ajoutée correspond bien à la couleur générée
+    const lastNotification = notifications.value[notifications.value.length - 1];
+    if (lastNotification.color === color) {
+        console.log('La couleur correspond bien:', color);
+    } else {
+        console.error('Erreur: La couleur ne correspond pas:', color, '!=', lastNotification.color);
+    }
+    if (notifications.value.length > 5) {
+        notifications.value.shift();
+        console.log('La plus ancienne notification a été supprimée');
+    }
   };
 
   
