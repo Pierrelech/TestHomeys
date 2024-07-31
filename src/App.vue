@@ -2,43 +2,41 @@
   <main>
     <BoutonNotif @colorGenerated="handleColorGenerated" />
     <div class="notifications-container">
-      <BaseNotification v-for="(notification, index) in notifications" :key="index" :color="notification.color" />
+      <BaseNotification v-for="notification in notifications" :key="notification.id" :color="notification.color" />
     </div>
   </main>
 </template>
 
 <script setup>
-  import { ref, watch } from 'vue';
-  import BaseNotification from "./components/BaseNotification.vue";
-  import BoutonNotif from "./components/BoutonNotif.vue";
+import { onMounted } from 'vue'
+import { useNotificationStore } from './store/notifications'
+import BaseNotification from "./components/BaseNotification.vue"
+import BoutonNotif from "./components/BoutonNotif.vue"
 
-  const notifications = ref([]);
+const notificationStore = useNotificationStore()
+const notifications = notificationStore.notifications
 
-  const handleColorGenerated = (color) => {
-    notifications.value.push({ color });
-    console.log(color);
-    console.log(notifications.value);
+const handleColorGenerated = (color) => {
+  const id = Date.now() // Utiliser un identifiant unique pour chaque notification
+  notificationStore.createNotification({ id, color })
+  console.log(color)
+  console.log(notifications)
 
-    // Vérification que la dernière valeur ajoutée correspond bien à la couleur générée
-    const lastNotification = notifications.value[notifications.value.length - 1];
-    if (lastNotification.color === color) {
-        console.log('La couleur correspond bien:', color);
-    } else {
-        console.error('Erreur: La couleur ne correspond pas:', color, '!=', lastNotification.color);
-    }
-    if (notifications.value.length > 5) {
-        notifications.value.shift();
-        console.log('La plus ancienne notification a été supprimée');
-    }
-  };
+  // Vérification que la dernière valeur ajoutée correspond bien à la couleur générée
+  const lastNotification = notifications[notifications.length - 1]
+  if (lastNotification.color === color) {
+    console.log('La couleur correspond bien:', color)
+  } else {
+    console.error('Erreur: La couleur ne correspond pas:', color, '!=', lastNotification.color)
+  }
+}
 
-  
+onMounted(() => {
+  console.log(notificationStore.getNotifications())
+})
 </script>
 
 <style scoped>
-
-
-
 .notifications-container {
   position: fixed;
   bottom: 0;
