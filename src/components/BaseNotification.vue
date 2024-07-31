@@ -1,8 +1,11 @@
 <template>
 	<main>
-        <div class="notification">
+        <div :class="notificationClass">
             <div class="modal-header">
-                <img src="../../icons/Danger.svg" alt="Danger Icon" />
+                <img v-if = "props.color=== 'rouge'" src="../../icons/Danger.svg" alt="Danger Icon" />
+                <img v-if = "props.color=== 'vert'"src="../../icons/CheckCircle.svg" alt="Success Icon" />
+                <img v-if = "props.color=== 'jaune'"src="../../icons/Warning.svg" alt="Warning Icon" />
+                <img v-if = "props.color=== 'bleu'"src="../../icons/Info.svg" alt="Info Icon" />
                 <h1>Modal Windows</h1>
                 <button class="close-button">&times;</button>
             </div>
@@ -12,10 +15,36 @@
 </template>
 
 <script setup>
+import { computed } from 'vue';
+
+// prop pour accepter l'entrée
+const props = defineProps({
+    color: {
+        type: String,
+        required: true,
+        validator: value => ['rouge', 'vert',"jaune","bleu"].includes(value)
+    }
+});
+
+//classe dynamique en fonction de la valeur de la prop
+const notificationClass = computed(() => {
+    if (props.color === 'rouge') {
+        return 'notification danger';
+    } else if (props.color === 'jaune') {
+        return 'notification warning';
+    } else if (props.color === 'vert') {
+        return 'notification success';
+    }
+    else if (props.color === 'bleu') {
+        return 'notification info';
+    }
+});
+
+
 </script>
 
 <style scoped>
-.notification {
+.danger {
     width: 527px; 
     height: 160px; 
     top: 32px;
@@ -27,6 +56,56 @@
     opacity: 1; 
     background: #F7E4E4;
     box-shadow: 0px 6px 12px 0px #0000001A;
+}
+
+.warning{
+    width: Hug (527px)px;
+    height: Hug (160px)px;
+    top: 420px;
+    left: 16px;
+    padding: 24px;
+    gap: 8px;
+    border-radius: 16px;
+    border: 1px 0px 0px 0px;
+    opacity: 0px;
+
+    background: #F7F2E4;
+    border: 1px solid #D4C296;
+    box-shadow: 0px 6px 12px 0px #0000001A;
+
+
+
+}
+
+.success{
+    width: Hug (527px)px;
+    height: Hug (160px)px;
+    top: 226px;
+    left: 16px;
+    padding: 24px;
+    gap: 8px;
+    border-radius: 16px 16px 16px 16px;
+    border: 2px 0px 0px 0px;
+    opacity: 0px;
+    background: #E4F7E8;
+    border: 2px solid #89B291;
+    box-shadow: 0px 6px 12px 0px #0000001A;
+}
+
+.info{
+    width: Hug (527px)px;
+    height: Hug (160px)px;
+    top: 614px;
+    left: 16px;
+    padding: 24px;
+    gap: 8px;
+    border-radius: 16px;
+    border: 2px 0px 0px 0px;
+    opacity: 0px;
+    background: #E4E9F7;
+    border: 2px solid #96A8D8;
+    box-shadow: 0px 6px 12px 0px #0000001A;
+
 }
 
 .modal-header {

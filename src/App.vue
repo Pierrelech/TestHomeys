@@ -1,6 +1,6 @@
 <template>
   <main>
-    <BaseNotification/>
+    <BaseNotification color="bleu"/>
   </main>
 </template>
 
