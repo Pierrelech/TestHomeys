@@ -16,7 +16,10 @@
 
   const handleColorGenerated = (color) => {
     notifications.value.push({ color });
+    console.log(notifications.value);
   };
+
+  
 </script>
 
 <style scoped>
