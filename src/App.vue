@@ -1,5 +1,8 @@
 <template>
   <main>
+    <BaseNotification color="rouge"/>
+    <BaseNotification color="jaune"/>
+    <BaseNotification color="vert"/>
     <BaseNotification color="bleu"/>
   </main>
 </template>
